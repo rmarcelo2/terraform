@@ -12,16 +12,20 @@ resource "aws_instance" "web" {
 
   vpc_security_group_ids = ["sg-01276b91e75b23d19"]
 
+  #Provisiando o arquivo que será enviado a máquina criada
   provisioner "file" {
     source      = "script.sh"
     destination = "/tmp/script.sh"
   }
+
+  #Depois do arquivo enviado, será executado remotamente na máquina
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/script.sh",
       "sudo /tmp/script.sh"
     ]
   }
+  ### Configurando a conexão SSH que será enviado os arquivos e executado, passando a chave .pem configurada previamente em resource "aws_instance" "web"
   #connection {
   #  type        = "ssh"
   #  host        = self.public_ip
