@@ -3,6 +3,11 @@ provider "aws" {
   profile = var.aws_profile
 }
 
+#criação do módulo de grupo de segurança, fazer testes.
+module "sg" {
+  source = "./sg"
+}
+
 resource "aws_instance" "web" {
   ami           = var.instance_ami
   instance_type = var.instance_type
@@ -10,7 +15,8 @@ resource "aws_instance" "web" {
 
   tags = var.instance_tags
 
-  vpc_security_group_ids = ["sg-01276b91e75b23d19"]
+  #vpc_security_group_ids = ["sg-01276b91e75b23d19"]
+  vpc_security_group_ids = ["${module.sg.group_id}"]
 
   #Provisiando o arquivo que será enviado a máquina criada
   provisioner "file" {
@@ -26,10 +32,11 @@ resource "aws_instance" "web" {
     ]
   }
   ### Configurando a conexão SSH que será enviado os arquivos e executado, passando a chave .pem configurada previamente em resource "aws_instance" "web"
-  #connection {
-  #  type        = "ssh"
-  #  host        = self.public_ip
-  #  user        = "ec2-user"
-  #  private_key = file("terraform.pem")
-  #}
+  connection {
+    type        = "ssh"
+    #port = "22788"
+    host        = self.public_ip
+    user        = "ec2-user"
+    private_key = file("terraform.pem")
+  }
 }

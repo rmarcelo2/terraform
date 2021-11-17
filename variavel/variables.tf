@@ -27,6 +27,6 @@ variable "instance_tags" {
   description = ""
   default = {
     Name    = "Ubuntu"
-    Project = "Curso AWS com terraform"
+    Project = "Projeto Terraform"
   }
 }
