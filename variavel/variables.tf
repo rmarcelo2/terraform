@@ -1,7 +1,7 @@
 variable "aws_region" {
   type        = string
   description = ""
-  default     = "us-east-2"
+  default     = "us-east-1"
 }
 
 variable "aws_profile" {
@@ -13,7 +13,8 @@ variable "aws_profile" {
 variable "instance_ami" {
   type        = string
   description = ""
-  default     = "ami-0f19d220602031aed"
+  default     = "ami-04902260ca3d33422"
+  #default = "ami-06fff60dfe880f035"
 }
 
 variable "instance_type" {
@@ -26,7 +27,7 @@ variable "instance_tags" {
   type        = map(string)
   description = ""
   default = {
-    Name    = "Ubuntu"
+    Name    = "TERRAFORM"
     Project = "Projeto Terraform"
   }
 }

@@ -11,11 +11,12 @@ module "sg" {
 resource "aws_instance" "web" {
   ami           = var.instance_ami
   instance_type = var.instance_type
-  key_name      = "terraform"
+  key_name      = "asc-terraform-teste"
 
   tags = var.instance_tags
 
-  #vpc_security_group_ids = ["sg-01276b91e75b23d19"]
+  #vpc_security_group_ids = ["sg-277d6738"]
+  #Abaixo relacionado ao módulo grupo de segurança
   vpc_security_group_ids = ["${module.sg.group_id}"]
 
   #Provisiando o arquivo que será enviado a máquina criada
@@ -33,9 +34,10 @@ resource "aws_instance" "web" {
   }
   ### Configurando a conexão SSH que será enviado os arquivos e executado, passando a chave .pem configurada previamente em resource "aws_instance" "web"
   connection {
-    type        = "ssh"
-    #port = "22788"
-    host        = self.public_ip
+    type = "ssh"
+    host = self.public_ip
+    #Nao pode ser usada outra porta diferente da padrão 22
+    #port        = "22788"
     user        = "ec2-user"
     private_key = file("terraform.pem")
   }
